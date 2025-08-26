@@ -1,5 +1,5 @@
 # flyx_vehiclesharing
-Skrypt jeszcze nie był testowany :p
+Skrypcior działa w 100%
 
 ## TODO LIST
 - Wszystko co związane z powiadomieniami itp. zrobić pod locale
