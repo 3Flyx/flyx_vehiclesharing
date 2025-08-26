@@ -7,8 +7,11 @@
     "coowner_none": "Brak",
     "coowner_current": "Obecny współwłasciciel",
     "coowner_add": "Dodaj współwłaściciela",
+    "coowner_add_desc": "Dodanie współwłasciciela kosztuje %s$",
     "coowner_remove": "Usuń współwłaściciela",
+    "coowner_remove_desc": "Usunięcie współwłasciciela kosztuje %s$",
     "coowner_replace": "Zmień współwłaściciela",
+    "coowner_replace_desc": "Zmienienie współwłasciciela kosztuje %s$",
     "coowner_choose": "Wybierz współwłaściciela",
 
     "choose_vehicle": "Wybierz Pojazd",
@@ -23,5 +26,6 @@
     "removed_a_vehicle_coowner": "Usunąłeś współwłaściciela pojazdu %s o rejestracji %s",
     "removed_as_vehicle_coowner": "%s %s Usunął cię jako współwłaściciela pojazdu %s o rejestracji %s",
     "coowner_same": "Nie możesz zmienić współwłaściciela na tego samego!",
-    "no_coowner": "Ten pojazd nie ma współwłaściciela."
+    "no_coowner": "Ten pojazd nie ma współwłaściciela.",
+    "existing_coowner": "Ten pojazd posiada już dodanego współwłasciciela"
 }

@@ -22,13 +22,19 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
     local vehData = json.decode(result.vehicle)
     
     if data.type == 'add' then
-        if result.co_owner then return end
+        if result.co_owner then 
+            return TriggerClientEvent('ox_lib:notify', xPlayer.source, {
+                title = locale('notify_title'),
+                description = locale('existing_coowner'),
+                type = 'error'
+            })
+        end
         local tPlayer = ESX.GetPlayerFromId(data.player)
         local affectedRows = MySQL.update.await('UPDATE owned_vehicles SET co_owner = ? WHERE vin = ? AND owner = ?', {tPlayer.identifier, data.vin, xPlayer.identifier})
         if affectedRows then
             TriggerClientEvent('ox_lib:notify', tPlayer.source, {
                 title = locale('notify_title'),
-                locale('added_you_as_vehicle_coowner'):format(xPlayer.get('firstName'), xPlayer.get('lastName'), data.display, result.plate),
+                description = locale('added_you_as_vehicle_coowner'):format(xPlayer.get('firstName'), xPlayer.get('lastName'), data.display, result.plate),
                 type = 'info'
             })
             TriggerClientEvent('ox_lib:notify', xPlayer.source, {
