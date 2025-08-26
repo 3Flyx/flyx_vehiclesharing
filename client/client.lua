@@ -2,7 +2,7 @@ CreateThread(function()
     local npc
     local ped = Config.Ped
     
-    lib.RequestModel(ped.model, 10000)
+    lib.requestModel(ped.model, 10000)
 
     npc = CreatePed(4, ped.model, ped.coords.x, ped.coords.y, ped.coords.z, ped.coords.w, false, true)
     SetEntityInvincible(npc, true)
