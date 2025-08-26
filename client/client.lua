@@ -79,7 +79,7 @@ function OpenVehicleSharingMenu(data)
         options[#options+1] = {
             title = "Dodaj współwłasciciela",
             icon = 'user-plus',
-            -- menu = '', -- dorobic menu i otworzyc do wybrania ziutka
+            -- menu = '', -- moze tutaj wrzucic menu do potwierdzenia??
             args = {vin = vin, type = 'add'},
             onSelect = function(data)
                 local ChosenPlayer = OpenPlayerChoosingMenu()
