@@ -3,7 +3,8 @@
 The VehicleSharing script allows players to share ownership of their vehicles with other players. It introduces a co-owner system, where the vehicle owner can add or remove co-owners, giving them access to use the vehicle as if it were their own. 
 
 If you encounter any bugs/issues, please create an issue or dm me on Discord - 3flyx
-\n**Feel free to create pull requests!**
+
+**Feel free to create pull requests!**
 
 ## Dependencies
 - [ox_lib](https://github.com/communityox/ox_lib/releases)
