@@ -79,7 +79,6 @@ function OpenVehicleSharingMenu(data)
         options[#options+1] = {
             title = "Dodaj współwłasciciela",
             icon = 'user-plus',
-            -- menu = '', -- moze tutaj wrzucic menu do potwierdzenia??
             args = {vin = vin, type = 'add'},
             onSelect = function(data)
                 local ChosenPlayer = OpenPlayerChoosingMenu()
@@ -96,7 +95,7 @@ function OpenVehicleSharingMenu(data)
         options[#options+1] = {
             title = "Usuń współwłasciciela",
             icon = 'user-minus',
-            -- menu = '', -- dorobic menu i wyjebac ziutka
+            -- menu = '', -- moze tutaj wrzucic menu do potwierdzenia??
             disabled = coowner and false or true,
             serverEvent = 'flyx_vehiclesharing/updateVehicle',
             args = {vin = vin, type = 'remove'}
