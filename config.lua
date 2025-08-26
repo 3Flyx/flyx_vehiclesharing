@@ -1,6 +1,11 @@
 Config = {}
 
 Config.Language = 'pl' -- pl / en
+-- Config.Payments = { -- set to false if you don't want payments
+--     AddPayment = 500,
+--     ChangePayment = 750,
+--     RemovePayment = 500
+-- }
 
 Config.Ped = {
     coords = vec4(-543.81, -609.68, 35.64, 276.88),

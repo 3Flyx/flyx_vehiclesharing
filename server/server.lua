@@ -101,3 +101,7 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
         end
     end
 end)
+
+RegisterNetEvent('flyx_vehiclesharing/Payment', function(data)
+    
+end)
