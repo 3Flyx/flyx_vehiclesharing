@@ -4,7 +4,7 @@ CreateThread(function()
     
     lib.requestModel(ped.model, 10000)
 
-    npc = CreatePed(4, ped.model, ped.coords.x, ped.coords.y, ped.coords.z, ped.coords.w, false, true)
+    npc = CreatePed(4, ped.model, ped.coords.x, ped.coords.y, ped.coords.z-1, ped.coords.w, false, true)
     SetEntityInvincible(npc, true)
     SetBlockingOfNonTemporaryEvents(npc, true)
     FreezeEntityPosition(npc, true)
@@ -42,17 +42,17 @@ function OpenSelectVehicleMenu()
         local vehData = json.decode(vehicles[i].vehicle)
         local model = vehData.model or "nieznany"
         local vin = vehicles[i].vin
-        local coowner = vehicles[i].coowner
+        local coowner = vehicles[i].co_owner or 'Brak'
         local display = GetDisplayNameFromVehicleModel(vehData.model)
 
         menu[#menu+1] = {
-            title = string.upper(model) .. " - " .. vin,
-            description = "Obecny Współwłasciciel "..coowner,
+            title = string.upper(display) .. " - " .. vin,
+            description = "Obecny współwłasciciel: "..coowner,
             icon = ('https://docs.fivem.net/vehicles/%s.webp'):format(display:lower()),
             onSelect = function(data)
                 OpenVehicleSharingMenu(data)
             end,
-            args = { vin = vin, coowner = coowner, model = model}
+            args = { vin = vin, coowner = coowner, display = display}
         }
     end
 
@@ -67,46 +67,53 @@ end
 function OpenVehicleSharingMenu(data)
     local vin, coowner = data.vin, data.coowner
     local options = {
-        title = "Obecny Współwłaściciel",
-        description = coowner or 'Brak',
-        icon = 'users'
+        {
+            title = "Obecny Współwłaściciel",
+            description = coowner or 'Brak',
+            icon = 'users',
+            readOnly = true
+        }
     }
 
-    if not coowner then
+    if not coowner or coowner == 'Brak' then
         options[#options+1] = {
             title = "Dodaj współwłasciciela",
             icon = 'user-plus',
-            args = {vin = vin, type = 'add'},
+            args = {vin = vin, type = 'add', display = data.display},
             onSelect = function(data)
                 local ChosenPlayer = OpenPlayerChoosingMenu()
+                print(ChosenPlayer)
                 if ChosenPlayer then
                     TriggerServerEvent('flyx_vehiclesharing/updateVehicle', {
                         vin = data.vin,
                         player = ChosenPlayer[1],
+                        display = data.display,
                         type = data.type
                     })
                 end
             end,
         }
     else
+        print(coowner)
         options[#options+1] = {
             title = "Usuń współwłasciciela",
             icon = 'user-minus',
             -- menu = '', -- moze tutaj wrzucic menu do potwierdzenia??
-            disabled = coowner and false or true,
+            disabled = (coowner == 'Brak') and true or false,
             serverEvent = 'flyx_vehiclesharing/updateVehicle',
-            args = {vin = vin, type = 'remove'}
+            args = {vin = vin, display = data.display, type = 'remove'}
         }
         options[#options+1] = {
             title = "Zmień współwłasciciela",
             icon = 'user-pen',
-            args = {vin = vin, type = 'replace'},
+            args = {vin = vin, type = 'replace', display = data.display},
             onSelect = function(data)
                 local ChosenPlayer = OpenPlayerChoosingMenu()
                 if ChosenPlayer then
                     TriggerServerEvent('flyx_vehiclesharing/updateVehicle', {
                         vin = data.vin,
                         player = ChosenPlayer[1],
+                        display = data.display,
                         type = data.type
                     })
                 end
@@ -116,7 +123,7 @@ function OpenVehicleSharingMenu(data)
 
     lib.registerContext({
         id = 'vehicle_coowner_'..vin,
-        title = 'Współwłaściciel - '..data.model,
+        title = 'Współwłaściciel - '..data.display,
         options = options
     })
 
@@ -126,19 +133,36 @@ end
 
 function OpenPlayerChoosingMenu()
     local ClosestPlayers = lib.getNearbyPlayers(GetEntityCoords(cache.ped), 20, false)
-    local players = {}
-    local playerNames = lib.callback.await('flyx_vehiclesharing/getPlayers', false, ClosestPlayers)
+    if not ClosestPlayers or next(ClosestPlayers) == nil then  
+        lib.notify({
+            title = 'Współwłaściciel',
+            description = 'Nie ma żadnych osób w pobliżu!',
+            type = 'error'
+        })
+        return false
+    end
+
+    local playerServerIds = {}
     for i=1, #ClosestPlayers do
         local player = ClosestPlayers[i]
+        local serverId = GetPlayerServerId(player.id)
+        table.insert(playerServerIds, serverId)
+    end
+
+    local playerNames = lib.callback.await('flyx_vehiclesharing/getPlayers', false, playerServerIds)
+    local players = {}
+    for i=1, #playerServerIds do
+        local player = playerServerIds[i]
 
         players[#players+1] = {
-            value = player.id,
-            label = (playerNames[player.id] or 'Nieznajomy')..' - ID: '..player.id
+            value = player,
+            label = (playerNames[player] or 'Nieznajomy')..' - ID: '..player
         }
     end
 
     local input = lib.inputDialog('Wybierz współwłasciciela', {
-        {type = 'select', label = 'Osoby w pobliżu', description = 'Wybierz osobę do nadania współwłaściciela', options = players, required = true, }
+        {type = 'select', label = 'Osoby w pobliżu', description = 'Wybierz osobę do nadania współwłaściciela', options = players, required = true}
     })
+    if not input then return end
     return input
 end
