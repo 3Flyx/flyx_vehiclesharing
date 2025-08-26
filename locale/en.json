@@ -1,0 +1,27 @@
+{
+    "blip_label": "Vehicle Co-owner",
+    "target_label": "Manage Co-owner",
+
+    "coowner": "Co-owner",
+    "coowner_unknown": "Unknown",
+    "coowner_none": "None",
+    "coowner_current": "Current Co-owner",
+    "coowner_add": "Add Co-owner",
+    "coowner_remove": "Remove Co-owner",
+    "coowner_replace": "Change Co-owner",
+    "coowner_choose": "Choose Co-owner",
+
+    "choose_vehicle": "Choose Vehicle",
+    "noone_nearby": "There is no one nearby!",
+    "coowner_choosing_label": "Nearby Players",
+    "coowner_choosing_description": "Select a person to assign as co-owner",
+
+    "notify_title": "Co-owner",
+    "error_getting_vehicle": "An error occurred while fetching vehicle with VIN: %s for %s",
+    "added_you_as_vehicle_coowner": "%s %s added you as a co-owner of vehicle %s with plate %s",
+    "added_a_vehicle_coowner": "You added %s %s as a co-owner of vehicle %s with plate %s",
+    "removed_a_vehicle_coowner": "You removed the co-owner of vehicle %s with plate %s",
+    "removed_as_vehicle_coowner": "%s %s removed you as a co-owner of vehicle %s with plate %s",
+    "coowner_same": "You cannot replace the co-owner with the same person!",
+    "no_coowner": "This vehicle has no co-owner."
+}

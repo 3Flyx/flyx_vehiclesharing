@@ -1,5 +1,7 @@
 Config = {}
 
+Config.Language = 'pl' -- pl / en
+
 Config.Ped = {
     coords = vec4(-543.81, -609.68, 35.64, 276.88),
     model = "a_m_m_business_01",
@@ -12,3 +14,5 @@ Config.Ped = {
         label = "Współwłaściciel pojazdu"
     }
 }
+
+lib.locale(Config.Language or 'en')

@@ -1,0 +1,27 @@
+{
+    "blip_label": "Współwłaściciel Pojazdu",
+    "target_label": "Zarządzaj współwłaścicielem",
+
+    "coowner": "Współwłaściciel",
+    "coowner_unknown": "Nieznany",
+    "coowner_none": "Brak",
+    "coowner_current": "Obecny współwłasciciel",
+    "coowner_add": "Dodaj współwłaściciela",
+    "coowner_remove": "Usuń współwłaściciela",
+    "coowner_replace": "Zmień współwłaściciela",
+    "coowner_choose": "Wybierz współwłaściciela",
+
+    "choose_vehicle": "Wybierz Pojazd",
+    "noone_nearby": "Nie ma żadnych osób w pobliżu!",
+    "coowner_choosing_label": "Osoby w pobliżu",
+    "coowner_choosing_description": "Wybierz osobę do nadania współwłaściciela",
+
+    "notify_title": "Współwłaściciel",
+    "error_getting_vehicle": "Wystąpił błąd przy pobraniu pojazdu o numerze VIN: %s dla %s",
+    "added_you_as_vehicle_coowner": "%s %s Dodał cię jako współwłaściciela pojazdu %s o rejestracji %s",
+    "added_a_vehicle_coowner": "Dodałeś %s %s jako współwłaściciela pojazdu %s o rejestracji %s",
+    "removed_a_vehicle_coowner": "Usunąłeś współwłaściciela pojazdu %s o rejestracji %s",
+    "removed_as_vehicle_coowner": "%s %s Usunął cię jako współwłaściciela pojazdu %s o rejestracji %s",
+    "coowner_same": "Nie możesz zmienić współwłaściciela na tego samego!",
+    "no_coowner": "Ten pojazd nie ma współwłaściciela."
+}

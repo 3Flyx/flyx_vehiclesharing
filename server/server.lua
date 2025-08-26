@@ -18,22 +18,22 @@ end)
 RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
     local xPlayer = ESX.GetPlayerFromId(source)
     local result = MySQL.single.await('SELECT * FROM owned_vehicles WHERE vin = ? AND owner = ?', {data.vin, xPlayer.identifier})
-    if not result then return lib.warn('Wystąpił błąd przy pobraniu pojazdu o numerze VIN: '..data.vin..' dla '..xPlayer.identifier) end
+    if not result then return lib.warn(locale('error_getting_vehicle'):format(data.vin, xPlayer.identifier)) end
     local vehData = json.decode(result.vehicle)
-
+    
     if data.type == 'add' then
         if result.co_owner then return end
         local tPlayer = ESX.GetPlayerFromId(data.player)
         local affectedRows = MySQL.update.await('UPDATE owned_vehicles SET co_owner = ? WHERE vin = ? AND owner = ?', {tPlayer.identifier, data.vin, xPlayer.identifier})
         if affectedRows then
             TriggerClientEvent('ox_lib:notify', tPlayer.source, {
-                title = 'Współwłaściciel',
-                description = xPlayer.get('firstName')..' '..xPlayer.get('lastName')..' Dodał cię jako współwłaściciela pojazdu '..data.display..' o rejestracji '..result.plate,
+                title = locale('notify_title'),
+                locale('added_you_as_vehicle_coowner'):format(xPlayer.get('firstName'), xPlayer.get('lastName'), data.display, result.plate),
                 type = 'info'
             })
             TriggerClientEvent('ox_lib:notify', xPlayer.source, {
-                title = 'Współwłaściciel',
-                description = 'Dodałeś '..tPlayer.get('firstName')..' '..tPlayer.get('lastName')..' jako współwłaściciela pojazdu '..data.display..' o rejestracji '..result.plate,
+                title = locale('notify_title'),
+                description = locale('added_a_vehicle_coowner'):format(tPlayer.get('firstName'), tPlayer.get('lastName'), data.display, result.plate),
                 type = 'info'
             })
         end
@@ -42,27 +42,27 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
         local oPlayer = ESX.GetPlayerFromIdentifier(result.co_owner)
         if oPlayer and tPlayer.identifier == oPlayer.identifier then 
             return TriggerClientEvent('ox_lib:notify', xPlayer.source, {
-                title = 'Współwłaściciel',
-                description = 'Nie możesz zmienić współwłaściciela na tego samego!',
+                title = locale('notify_title'),
+                description = locale('coowner_same'),
                 type = 'info'
             })
         end
         local affectedRows = MySQL.update.await('UPDATE owned_vehicles SET co_owner = ? WHERE vin = ? AND owner = ?', {tPlayer.identifier, data.vin, xPlayer.identifier})
         if affectedRows then
             TriggerClientEvent('ox_lib:notify', tPlayer.source, {
-                title = 'Współwłaściciel',
-                description = xPlayer.get('firstName')..' '..xPlayer.get('lastName')..' Dodał cię jako współwłaściciela pojazdu '..data.display..' o rejestracji '..result.plate,
+                title = locale('notify_title'),
+                description = locale('added_you_as_vehicle_coowner'):format(xPlayer.get('firstName'), xPlayer.get('lastName'), data.display, result.plate),
                 type = 'info'
             })
             TriggerClientEvent('ox_lib:notify', xPlayer.source, {
-                title = 'Współwłaściciel',
-                description = 'Dodałeś '..tPlayer.get('firstName')..' '..tPlayer.get('lastName')..' jako współwłaściciela pojazdu '..data.display..' o rejestracji '..result.plate,
+                title = locale('notify_title'),
+                description = locale('added_a_vehicle_coowner'):format(tPlayer.get('firstName'), tPlayer.get('lastName'), data.display, result.plate),
                 type = 'info'
             })
             if oPlayer then
                 TriggerClientEvent('ox_lib:notify', oPlayer.source, {
-                    title = 'Współwłaściciel',
-                    description = xPlayer.get('firstName')..' '..xPlayer.get('lastName')..' Usunął cię jako współwłaściciela pojazdu '..data.display..' o rejestracji '..result.plate,
+                    title = locale('notify_title'),
+                    description = locale('removed_as_vehicle_coowner'):format(xPlayer.get('firstName'), xPlayer.get('lastName'), data.display, result.plate),
                     type = 'info'
                 })
             end
@@ -70,8 +70,8 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
     elseif data.type == 'remove' then
         if not result.co_owner then
             return TriggerClientEvent('ox_lib:notify', xPlayer.source, {
-                title = 'Współwłaściciel',
-                description = 'Ten pojazd nie ma współwłaściciela.',
+                title = locale('notify_title'),
+                description = locale('no_coowner'),
                 type = 'error'
             })
         end
@@ -80,15 +80,15 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
         local affectedRows = MySQL.update.await('UPDATE owned_vehicles SET co_owner = NULL WHERE vin = ? AND owner = ?', {data.vin, xPlayer.identifier})
         if affectedRows then
             TriggerClientEvent('ox_lib:notify', xPlayer.source, {
-                title = 'Współwłaściciel',
-                description = 'Usunąłeś współwłasciciela pojazdu '..data.display..' o rejestracji '..result.plate,
+                title = locale('notify_title'),
+                description = locale('removed_a_vehicle_coowner'):format(data.display, result.plate),
                 type = 'info'
             })
 
             if oPlayer then
                 TriggerClientEvent('ox_lib:notify', oPlayer.source, {
-                    title = 'Współwłaściciel',
-                    description = xPlayer.get('firstName')..' '..xPlayer.get('lastName')..' usunął cię jako współwłaściciela pojazdu '..data.display..' o rejestracji '..result.plate,
+                    title = locale('notify_title'),
+                    description = locale('removed_as_vehicle_coowner'):format(xPlayer.get('firstName'), xPlayer.get('lastName'), data.display, result.plate),
                     type = 'error'
                 })
             end
