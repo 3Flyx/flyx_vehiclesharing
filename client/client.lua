@@ -1,11 +1,8 @@
-local ESX = exports.es_extended.getSharedObject()
-
 CreateThread(function()
     local npc
     local ped = Config.Ped
     
-    RequestModel(ped.model)
-    while not HasModelLoaded(ped.model) do Wait(10) end
+    lib.RequestModel(ped.model, 10000)
 
     npc = CreatePed(4, ped.model, ped.coords.x, ped.coords.y, ped.coords.z, ped.coords.w, false, true)
     SetEntityInvincible(npc, true)
@@ -131,13 +128,13 @@ end
 function OpenPlayerChoosingMenu()
     local ClosestPlayers = lib.getNearbyPlayers(GetEntityCoords(cache.ped), 20, false)
     local players = {}
+    local playerNames = lib.callback.await('flyx_vehiclesharing/getPlayers', false, ClosestPlayers)
     for i=1, #ClosestPlayers do
         local player = ClosestPlayers[i]
-        local playerName = lib.callback.await('flyx_vehiclesharing/getPlayerName', false, player.id)
 
         players[#players+1] = {
-            value = player.playerId,
-            label = playerName..' - ID: '..player.id
+            value = player.id,
+            label = (playerNames[player.id] or 'Nieznajomy')..' - ID: '..player.id
         }
     end
 

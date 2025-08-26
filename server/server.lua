@@ -1,19 +1,18 @@
-local ESX = exports.es_extended:getSharedObject()
-
 lib.callback.register('flyx_vehiclesharing/getVehicles', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
     local result = MySQL.query.await('SELECT * FROM owned_vehicles WHERE owner = ?', {xPlayer.identifier})
     return result
 end)
 
-lib.callback.register('flyx_vehiclesharing/getPlayerName', function(source, targetId)
-    local xPlayer = ESX.GetPlayerFromId(targetId)
-    if not xPlayer then return 'Nieznajomy' end
-
-    local firstName = xPlayer.get('firstName')
-    local lastName = xPlayer.get('lastName')
-
-    return firstName..' '..lastName
+lib.callback.register('flyx_vehiclesharing/getPlayers', function(source, players)
+    local playerNames = {}
+    for _, player in ipairs(players) do
+        local tPlayer = ESX.GetPlayerFromId(player.id)
+        if tPlayer then
+            playerNames[player.id] = tPlayer.get('firstName')..' '..tPlayer.get('lastName')
+        end
+    end
+    return playerNames
 end)
 
 RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(source, data)
