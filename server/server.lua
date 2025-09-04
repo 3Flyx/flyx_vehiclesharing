@@ -17,10 +17,17 @@ end)
 
 RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
     local xPlayer = ESX.GetPlayerFromId(source)
+    if not data.vin then return end
     local result = MySQL.single.await('SELECT * FROM owned_vehicles WHERE vin = ? AND owner = ?', {data.vin, xPlayer.identifier})
     if not result then return lib.warn(locale('error_getting_vehicle'):format(data.vin, xPlayer.identifier)) end
-    local vehData = json.decode(result.vehicle)
-    
+
+    -- 1.1 PAYMENT ADDED
+    if Config.Payments then
+        local paymentType = lib.callback.await('flyx_vehiclesharing/PaymentDialog', source)
+        local payment = ProcessPayment(source, paymentType, data.type)
+        if not payment then return end
+    end
+
     if data.type == 'add' then
         if result.co_owner then 
             return TriggerClientEvent('ox_lib:notify', xPlayer.source, {
@@ -30,6 +37,7 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
             })
         end
         local tPlayer = ESX.GetPlayerFromId(data.player)
+        
         local affectedRows = MySQL.update.await('UPDATE owned_vehicles SET co_owner = ? WHERE vin = ? AND owner = ?', {tPlayer.identifier, data.vin, xPlayer.identifier})
         if affectedRows then
             TriggerClientEvent('ox_lib:notify', tPlayer.source, {
@@ -53,6 +61,7 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
                 type = 'info'
             })
         end
+
         local affectedRows = MySQL.update.await('UPDATE owned_vehicles SET co_owner = ? WHERE vin = ? AND owner = ?', {tPlayer.identifier, data.vin, xPlayer.identifier})
         if affectedRows then
             TriggerClientEvent('ox_lib:notify', tPlayer.source, {
@@ -102,6 +111,43 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
     end
 end)
 
-RegisterNetEvent('flyx_vehiclesharing/Payment', function(data)
-    
-end)
+function ProcessPayment(source, paymentType, updateType)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local amount = Config.Payments[updateType]
+    if paymentType == 'cash' then
+        local moneyCount = exports.ox_inventory:GetItemCount(source, 'money', nil, false)
+        if moneyCount < amount then
+            TriggerClientEvent('ox_lib:notify', xPlayer.source, {
+                title = locale('notify_title'),
+                description = locale('no_money'),
+                type = 'error'
+            })
+            return false
+        end
+
+        if not exports.ox_inventory:RemoveItem(source, 'money', amount) then
+            TriggerClientEvent('ox_lib:notify', xPlayer.source, {
+                title = locale('notify_title'),
+                description = locale('no_money'),
+                type = 'error'
+            })
+            return false
+        end
+
+        return true
+    elseif paymentType == 'card' then
+        local money = xPlayer.getMoney()
+        if money < amount then
+            TriggerClientEvent('ox_lib:notify', xPlayer.source, {
+                title = locale('notify_title'),
+                description = locale('no_bank_money'),
+                type = 'error'
+            })
+            return false
+        end
+
+        xPlayer.removeAccountMoney("bank", amount, locale('payment_'..tostring(updateType)))
+        
+        return true
+    end
+end
