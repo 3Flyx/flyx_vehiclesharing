@@ -13,6 +13,5 @@ If you encounter any bugs/issues, please create an issue or dm me on Discord - 3
 
 ## TODO List
 - Add p_bridge compatibility **OR** add bridge files for QBOX & QB
-- Add more things to config
-  - Cost of adding/replacing/removing a coowner
-  - Requirement of confirmation by the person we want to add
+- Add requirement of confirmation by the person we want to add
+- Add confirmation prompt for removing co-owner

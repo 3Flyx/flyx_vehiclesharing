@@ -27,5 +27,14 @@
     "removed_as_vehicle_coowner": "%s %s Usunął cię jako współwłaściciela pojazdu %s o rejestracji %s",
     "coowner_same": "Nie możesz zmienić współwłaściciela na tego samego!",
     "no_coowner": "Ten pojazd nie ma współwłaściciela.",
-    "existing_coowner": "Ten pojazd posiada już dodanego współwłasciciela"
+    "existing_coowner": "Ten pojazd posiada już dodanego współwłasciciela",
+
+    "payment_type": "Wybierz sposób płatności",
+    "card": "Karta",
+    "cash": "Gotówka",
+    "payment_add": "Dodanie współwłaściciela",
+    "payment_replace": "Zmiana współwłaściciela",
+    "payment_remove": "Usunięcie",
+    "no_money": "Nie masz wystarczająco gotówki!",
+    "no_bank_money": "Nie masz wystarczająco pieniędzy w banku!"
 }

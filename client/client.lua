@@ -13,7 +13,7 @@ CreateThread(function()
         TaskStartScenarioInPlace(npc, ped.scenario, 0, true)
     end
 
-    if ped.blip and ped.blip.enabled then
+    if ped.blip then
         local blip = AddBlipForCoord(ped.coords.x, ped.coords.y, ped.coords.z)
         SetBlipSprite(blip, ped.blip.sprite)
         SetBlipColour(blip, ped.blip.color)
@@ -75,18 +75,17 @@ function OpenVehicleSharingMenu(data)
         }
     }
 
-    if not coowner or coowner == 'Brak' then
+    if not coowner or coowner == locale('coowner_unknown') then
         options[#options+1] = {
             title = locale('coowner_add'),
             icon = 'user-plus',
             args = {vin = vin, type = 'add', display = data.display},
             onSelect = function(data)
                 local ChosenPlayer = OpenPlayerChoosingMenu()
-                print(ChosenPlayer)
                 if ChosenPlayer then
                     TriggerServerEvent('flyx_vehiclesharing/updateVehicle', {
                         vin = data.vin,
-                        player = ChosenPlayer[1],
+                        player = ChosenPlayer,
                         display = data.display,
                         type = data.type
                     })
@@ -94,7 +93,6 @@ function OpenVehicleSharingMenu(data)
             end,
         }
     else
-        print(coowner)
         options[#options+1] = {
             title = locale('coowner_remove'),
             icon = 'user-minus',
@@ -164,5 +162,15 @@ function OpenPlayerChoosingMenu()
         {type = 'select', label = locale('coowner_choosing_label'), description = locale('coowner_choosing_description'), options = players, required = true}
     })
     if not input then return end
-    return input
+    return input[1]
 end
+
+lib.register.callback('flyx_vehiclesharing/PaymentDialog', function()
+    local input = lib.inputDialog('Płatność', {
+        {type = 'select', label = locale('payment_type'), required = true, options = {
+            [1] = {value = 'card', label = locale('card')}, 
+            [2] = {value = 'cash', label = locale('cash')}}
+        }
+    }, {allowCancel = false})
+    return input and input[1] or 'cash'
+end)
