@@ -9,9 +9,9 @@ client_scripts{
 }
 
 shared_scripts{
-    'config.lua',
     '@ox_lib/init.lua',
-    '@es_extended/imports.lua'
+    '@es_extended/imports.lua',
+    'config.lua',
 } 
 
 server_scripts{
