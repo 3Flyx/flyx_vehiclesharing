@@ -4,6 +4,10 @@ lua54 'yes'
 
 author 'Flyx'
 
+dependencies {
+    'ox_lib'
+}
+
 client_scripts{
     'client/**.lua'
 }
@@ -17,4 +21,8 @@ shared_scripts{
 server_scripts{
     'server/**.lua',
     '@oxmysql/lib/MySQL.lua'
+}
+
+files {
+    'locales/*.json'
 }
