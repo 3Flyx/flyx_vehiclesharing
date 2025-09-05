@@ -165,7 +165,7 @@ function OpenPlayerChoosingMenu()
     return input[1]
 end
 
-lib.register.callback('flyx_vehiclesharing/PaymentDialog', function()
+lib.callback.register('flyx_vehiclesharing/PaymentDialog', function()
     local input = lib.inputDialog('Płatność', {
         {type = 'select', label = locale('payment_type'), required = true, options = {
             [1] = {value = 'card', label = locale('card')}, 
