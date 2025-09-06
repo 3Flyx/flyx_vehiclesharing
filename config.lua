@@ -1,11 +1,12 @@
 Config = {}
-
+-- 1.2 UPDATE -> SET YOUR WEBHOOK IN server/server.lua
 Config.Language = 'pl' -- pl / en
 Config.Payments = { -- set to false if you don't want payments
     add = 500,
     replace = 750,
     remove = 500
 }
+Config.RequireConfirmation = true
 
 Config.Ped = {
     coords = vec4(-543.81, -609.68, 35.64, 276.88),

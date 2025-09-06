@@ -3,6 +3,7 @@ game 'gta5'
 lua54 'yes'
 
 author 'Flyx'
+version '1.2'
 
 dependencies {
     'ox_lib'
