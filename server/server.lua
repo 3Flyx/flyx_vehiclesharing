@@ -23,8 +23,8 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
 
     -- 1.1 PAYMENT ADDED
     if Config.Payments then
-        local paymentType = lib.callback.await('flyx_vehiclesharing/PaymentDialog', source)
-        local payment = ProcessPayment(source, paymentType, data.type)
+        local paymentType = lib.callback.await('flyx_vehiclesharing/PaymentDialog', xPlayer.source)
+        local payment = ProcessPayment(xPlayer.source, paymentType, data.type)
         if not payment then return end
     end
 
