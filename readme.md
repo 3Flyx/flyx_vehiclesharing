@@ -25,5 +25,4 @@ data.info = {
 ```
 
 ## TODO List
-- Add p_bridge compatibility **OR** add bridge files for QBOX & QB
-- Add confirmation prompt for removing co-owner
+- Add p_bridge compatibility
