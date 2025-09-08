@@ -146,11 +146,7 @@ end
 function OpenPlayerChoosingMenu()
     local ClosestPlayers = lib.getNearbyPlayers(GetEntityCoords(cache.ped), 20, false)
     if not ClosestPlayers or next(ClosestPlayers) == nil then  
-        lib.notify({
-            title = locale('coowner'),
-            description = locale('noone_nearby'),
-            type = 'error'
-        })
+        Bridge.sendNotify(locale('noone_nearby'), 'error')
         return false
     end
 

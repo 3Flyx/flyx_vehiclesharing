@@ -10,7 +10,9 @@ dependencies {
 }
 
 client_scripts{
-    'client/**.lua'
+    'client/**.lua',
+    'bridge/client/**.lua',
+    '@qbx_core/modules/playerdata.lua'
 }
 
 shared_scripts{
@@ -21,6 +23,7 @@ shared_scripts{
 
 server_scripts{
     'server/**.lua',
+    'bridge/server/**.lua',
     '@oxmysql/lib/MySQL.lua'
 }
 

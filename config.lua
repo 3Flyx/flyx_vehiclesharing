@@ -1,6 +1,7 @@
 Config = {}
--- 1.2 UPDATE -> SET YOUR WEBHOOK IN server/server.lua
+
 Config.Language = 'pl' -- pl / en
+Config.Framework = 'ESX' -- ESX / QBOX 
 Config.Payments = { -- set to false if you don't want payments
     add = 500,
     replace = 750,
