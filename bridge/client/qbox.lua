@@ -1,4 +1,4 @@
-if not Config.Framework == string.upper('QBOX') then return end
+if string.upper(Config.Framework) ~= 'QBOX' then return end
 
 Bridge = {
     sendNotify = function(description, type)

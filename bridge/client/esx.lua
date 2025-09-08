@@ -1,4 +1,4 @@
-if not Config.Framework == string.upper('ESX') then return end
+if string.upper(Config.Framework) ~= 'ESX' then return end
 
 Bridge = {
     sendNotify = function(description, type)
