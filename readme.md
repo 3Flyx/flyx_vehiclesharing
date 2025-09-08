@@ -4,8 +4,6 @@ The VehicleSharing script allows players to share ownership of their vehicles wi
 
 If you encounter any bugs/issues, please create an issue or dm me on Discord - 3flyx
 
-**Feel free to create pull requests!**
-
 ## Dependencies
 - [ox_lib](https://github.com/communityox/ox_lib/releases)
 - [es_extended](https://github.com/esx-framework/esx_core)
