@@ -134,6 +134,7 @@ function ProcessPayment(source, paymentType, updateType)
 end
 
 function SendDiscordLog(playerId, message)
+    if not Config.Logs then return end
     if not webhook then return end
     local steamName, steamHex, discordId = 'Unknown', 'Unknown', 'Unknown'
     if playerId then

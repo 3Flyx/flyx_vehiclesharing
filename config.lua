@@ -6,7 +6,8 @@ Config.Payments = { -- set to false if you don't want payments
     replace = 750,
     remove = 500
 }
-Config.RequireConfirmation = true
+Config.RequireConfirmation = true -- require confirmation from the player we want to add 
+Config.Logs = true -- SET YOUR WEBHOOK IN SERVER.LUA
 
 Config.Ped = {
     coords = vec4(-543.81, -609.68, 35.64, 276.88),

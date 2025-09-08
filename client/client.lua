@@ -96,7 +96,6 @@ function OpenVehicleSharingMenu(data)
         options[#options+1] = {
             title = locale('coowner_remove'),
             icon = 'user-minus',
-            -- menu = '', -- moze tutaj wrzucic menu do potwierdzenia??
             disabled = (coowner == 'Brak') and true or false,
             -- serverEvent = 'flyx_vehiclesharing/updateVehicle',
             onSelect = function(args) -- god damn, how many datas can there be? This one will be special :p
