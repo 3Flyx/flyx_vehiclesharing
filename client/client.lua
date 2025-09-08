@@ -188,7 +188,7 @@ end)
 lib.callback.register('flyx_vehiclesharing/ConfirmationDialog', function(data)
     local alert = lib.alertDialog({
         header = locale('confirmation_title'),
-        content = locale('wants_to_add_you'):format(data.firstName..' '..data.lastName, data.model, data.plate),
+        content = locale('wants_to_add_you'):format(data.playerName, data.model, data.plate),
         centered = true,
         cancel = true,
         labels = {

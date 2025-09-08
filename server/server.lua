@@ -11,7 +11,7 @@ lib.callback.register('flyx_vehiclesharing/getPlayers', function(source, players
     for _, player in ipairs(players) do
         local tPlayer = Bridge.GetPlayerFromId(player)
         if tPlayer then
-            playerNames[player] = tPlayer.get('firstName')..' '..tPlayer.get('lastName')
+            playerNames[player] = Bridge.GetPlayerName(tPlayer, false)
         end
     end
     return playerNames
@@ -39,7 +39,11 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
         if not tPlayer then return end
 
         if Config.RequireConfirmation then
-            local confirmation = lib.callback.await('flyx_vehiclesharing/ConfirmationDialog', tPlayer.source, {xPlayer.get('firstName'), xPlayer.get('lastName'), data.model, result.plate})
+            local confirmation = lib.callback.await('flyx_vehiclesharing/ConfirmationDialog', tPlayer.source, {
+                playerName = Bridge.GetPlayerName(xPlayer, false), 
+                model = data.model, 
+                plate = result.plate
+            })
             if not confirmation then
                 Bridge.sendNotify(xPlayer.source, locale('player_rejected'), 'error')
                 return
@@ -63,7 +67,11 @@ RegisterNetEvent('flyx_vehiclesharing/updateVehicle', function(data)
         end
 
         if Config.RequireConfirmation then
-            local confirmation = lib.callback.await('flyx_vehiclesharing/ConfirmationDialog', tPlayer.source, {xPlayer.get('firstName'), xPlayer.get('lastName'), data.model, result.plate})
+            local confirmation = lib.callback.await('flyx_vehiclesharing/ConfirmationDialog', tPlayer.source, {
+                playerName = Bridge.GetPlayerName(xPlayer, false), 
+                model = data.model, 
+                plate = result.plate
+            })
             if not confirmation then
                 Bridge.sendNotify(xPlayer.source, locale('player_rejected'), 'error')
                 return

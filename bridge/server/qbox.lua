@@ -1,4 +1,5 @@
-if string.upper(Config.Framework) ~= 'QBOX' then return end
+if not GetResourceState('qbx_core'):find('start') then return end
+lib.print.info('Loaded QBOX Bridge')
 
 Bridge = {
     GetPlayerFromId = function(playerId)
@@ -11,6 +12,16 @@ Bridge = {
         xPlayer.source = xPlayer.PlayerData.source
         xPlayer.identifier = xPlayer.PlayerData.citizenid
         return xPlayer
+    end,
+
+    GetPlayerName = function(xPlayer, separate)
+        local xPlayer = type(xPlayer) == 'number' and Bridge.GetPlayerFromId(xPlayer) or xPlayer
+        if not xPlayer or type(xPlayer) ~= 'table' then return 'Unknown' end
+        if separate then
+            return xPlayer.PlayerData.charinfo.firstname, xPlayer.PlayerData.charinfo.lastname
+        else
+            return xPlayer.PlayerData.charinfo.firstname..' '..xPlayer.PlayerData.charinfo.lastname
+        end
     end,
     
     sendNotify = function(playerId, description, type)

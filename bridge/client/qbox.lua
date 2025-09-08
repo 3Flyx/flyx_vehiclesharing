@@ -1,4 +1,4 @@
-if string.upper(Config.Framework) ~= 'QBOX' then return end
+if GetResourceState('qbx_core') ~= 'started' then return end
 
 Bridge = {
     sendNotify = function(description, type)
