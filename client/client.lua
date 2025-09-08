@@ -96,9 +96,23 @@ function OpenVehicleSharingMenu(data)
         options[#options+1] = {
             title = locale('coowner_remove'),
             icon = 'user-minus',
-            -- menu = '', -- moze tutaj wrzucic menu do potwierdzenia??
             disabled = (coowner == 'Brak') and true or false,
-            serverEvent = 'flyx_vehiclesharing/updateVehicle',
+            -- serverEvent = 'flyx_vehiclesharing/updateVehicle',
+            onSelect = function(args) -- god damn, how many datas can there be? This one will be special :p
+                local alert = lib.alertDialog({
+                    header = locale('confirmation_title'),
+                    content = locale('are_you_sure'):format(coowner),
+                    centered = true,
+                    cancel = true,
+                    labels = {
+                        cancel = locale('confirmation_decline'),
+                        confirm = locale('confirmation_accept')
+                    }
+                })
+                if alert == 'confirm' then
+                    TriggerServerEvent('flyx_vehiclesharing/updateVehicle', {args.vin, args.display, args.type})
+                end
+            end,
             args = {vin = vin, display = data.display, type = 'remove'}
         }
         options[#options+1] = {
@@ -132,11 +146,7 @@ end
 function OpenPlayerChoosingMenu()
     local ClosestPlayers = lib.getNearbyPlayers(GetEntityCoords(cache.ped), 20, false)
     if not ClosestPlayers or next(ClosestPlayers) == nil then  
-        lib.notify({
-            title = locale('coowner'),
-            description = locale('noone_nearby'),
-            type = 'error'
-        })
+        Bridge.sendNotify(locale('noone_nearby'), 'error')
         return false
     end
 
@@ -166,11 +176,26 @@ function OpenPlayerChoosingMenu()
 end
 
 lib.callback.register('flyx_vehiclesharing/PaymentDialog', function()
-    local input = lib.inputDialog('Płatność', {
+    local input = lib.inputDialog(locale('payment_title'), {
         {type = 'select', label = locale('payment_type'), required = true, options = {
             [1] = {value = 'card', label = locale('card')}, 
             [2] = {value = 'cash', label = locale('cash')}}
         }
     }, {allowCancel = false})
     return input and input[1] or 'cash'
+end)
+
+lib.callback.register('flyx_vehiclesharing/ConfirmationDialog', function(data)
+    local alert = lib.alertDialog({
+        header = locale('confirmation_title'),
+        content = locale('wants_to_add_you'):format(data.firstName..' '..data.lastName, data.model, data.plate),
+        centered = true,
+        cancel = true,
+        labels = {
+            cancel = locale('confirmation_decline'),
+            confirm = locale('confirmation_accept')
+        }
+    })
+
+    return alert == 'confirm' and true or false
 end)

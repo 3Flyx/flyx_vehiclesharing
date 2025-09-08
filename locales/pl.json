@@ -14,6 +14,12 @@
     "coowner_replace_desc": "Zmienienie współwłasciciela kosztuje %s$",
     "coowner_choose": "Wybierz współwłaściciela",
 
+    "confirmation_title": "Współwłaściciel pojazdu",
+    "wants_to_add_you": "%s Chce cię dodać jako wspołwłaściciela pojazdu %s, o numerach rej. %s", 
+    "confirmation_decline": "Odrzuć",
+    "confirmation_accept": "Przyjmij",
+    "are_you_sure": "Jesteś pewien, że chcesz usunąć %s jako wspołwłaściciela pojazdu?",
+
     "choose_vehicle": "Wybierz Pojazd",
     "noone_nearby": "Nie ma żadnych osób w pobliżu!",
     "coowner_choosing_label": "Osoby w pobliżu",
@@ -29,6 +35,7 @@
     "no_coowner": "Ten pojazd nie ma współwłaściciela.",
     "existing_coowner": "Ten pojazd posiada już dodanego współwłasciciela",
 
+    "payment_title": "Płatność",
     "payment_type": "Wybierz sposób płatności",
     "card": "Karta",
     "cash": "Gotówka",
@@ -36,5 +43,9 @@
     "payment_replace": "Zmiana współwłaściciela",
     "payment_remove": "Usunięcie",
     "no_money": "Nie masz wystarczająco gotówki!",
-    "no_bank_money": "Nie masz wystarczająco pieniędzy w banku!"
+    "no_bank_money": "Nie masz wystarczająco pieniędzy w banku!",
+    
+    "player_rejected": "Gracz odrzucił twoją propozycję o zostanie współwłaścicielem pojazdu!",
+
+    "log_added": "%s dodał %s (%s) jako współwłasciciela pojazdu %s o nr. rejestracyjnych %s \n(VIN POJAZDU: %s)"
 }
